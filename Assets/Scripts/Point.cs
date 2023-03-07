@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class Point : MonoBehaviour
 {
-    public float pointStart = 100;
+    public int pointStart = 1000;
     public Text pointUI;
+    public int getScore;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,8 @@ public class Point : MonoBehaviour
         if(pointStart >= 0){
             pointUI.text = "Point Left: " + pointStart; //đặt hiển thị
             pointStart--;
-            Invoke("PointDown", 0.1f); //giảm 1 điểm mỗi 0.1s
+            Invoke("PointDown", 0.01f); //giảm 1 điểm mỗi 0.1s
+            getScore = pointStart;
         } else{
             FindObjectOfType<GameManager>().GameOver();
             

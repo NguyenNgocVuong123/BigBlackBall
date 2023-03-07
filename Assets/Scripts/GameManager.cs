@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
             getScore = pointStart;
         } else{
             FindObjectOfType<GameManager>().GameOver();
-            
         }
     }
 
@@ -70,7 +69,6 @@ public class GameManager : MonoBehaviour
             isEnd = true; //sẽ đặt lại kiểm tra = đúng, khi đó game sẽ chỉ kết thúc 1 lần duy nh
             PauseButton.SetActive(false);
             gamePauseUI.SetActive(false);
-            highScoreTable.list();
             scoreBoard.SetActive(true);
             Debug.Log("gameOver");
             playerMov.enabled = false;
@@ -104,8 +102,10 @@ public class GameManager : MonoBehaviour
     public void Pause(){ // tạm dừng trò chơi
         gamePauseUI.SetActive(true);
         PauseButton.SetActive(false);
-        Time.timeScale = 0f;
         isPause = true;
+        Time.timeScale = 0f;
+        
+        
     }
     public void Continue(){ //tiếp tục trò chơi
         gamePauseUI.SetActive(false);

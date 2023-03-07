@@ -22,7 +22,9 @@ public class HighScoreTable : MonoBehaviour
 
     private void Awake() {
         entryTemplate.gameObject.SetActive(true);//tạm thời ẩn bảng
-        // list();
+
+        //  InitHighScore("vuong", 1000);
+        //   InitHighScore("vuong2", 1000);
         
     }
     
@@ -47,10 +49,9 @@ public class HighScoreTable : MonoBehaviour
         //lấy dữ liệu từ file json đã lưu ở PlayerPef
         string jsonString =  PlayerPrefs.GetString("highScoreTable");
         //chuyển đổi từ json sang string để trả về dữ liệu highscore của người chơi
-        highscore highscore = JsonUtility.FromJson<highscore>(jsonString);
+        Highscore highscore = JsonUtility.FromJson<Highscore>(jsonString);
 
-        
-
+    
 
 
 
@@ -72,7 +73,7 @@ public class HighScoreTable : MonoBehaviour
             
         }
 
-        
+        Debug.Log("dsa: " +jsonString);
         
     }
 
@@ -104,6 +105,18 @@ public class HighScoreTable : MonoBehaviour
 
 
 //dùng playerpefs để lưu highscore và jsonutility để chuyển đổi danh sách lưu
+ public void InitHighScore(string name, int score){ 
+        //tạo ojb lưu lại highscore
+        HSEntry hSEntry = new HSEntry();
+        hSEntry.name = name;
+        hSEntry.score = score;
+         Highscore highscore = new Highscore();
+        //thêm dữ liệu mới vào highscore
+        highscore.HScoreEntriesList.Add(hSEntry);
+        string json = JsonUtility.ToJson(highscore); //chuyển về chuỗi(string) dữ liệu lưu trong file json //để dùng được thì phải mở truy cập của lớp HSEntry thì mới truy cập dc giá trị
+        PlayerPrefs.SetString("highScoreTable", json); 
+
+ }
     public void AddHighScore(string name, int score){ 
         //tạo ojb lưu lại highscore
         HSEntry hSEntry = new HSEntry();
@@ -112,8 +125,9 @@ public class HighScoreTable : MonoBehaviour
         
         //lấy dữ liệu từ file json đã lưu ở PlayerPef load ra
         string jsonString =  PlayerPrefs.GetString("highScoreTable");
+        Debug.Log(" json" + jsonString);
         //chuyển đổi từ json sang string để trả về dữ liệu highscore của người chơi
-        highscore highscore = JsonUtility.FromJson<highscore>(jsonString);
+        Highscore highscore = JsonUtility.FromJson<Highscore>(jsonString);
         //thêm dữ liệu mới vào highscore
         highscore.HScoreEntriesList.Add(hSEntry);
         //lưu lại và cập nhật dữ liệu trong file json
@@ -145,8 +159,8 @@ public class HighScoreTable : MonoBehaviour
 
 
     [System.Serializable]
-    private class highscore{
-        public List<HSEntry> HScoreEntriesList; //tảo bảng chứa dữ liệu
+    private class Highscore{
+        public List<HSEntry> HScoreEntriesList = new List<HSEntry>(); //tảo bảng chứa dữ liệu
 
     }
     //class dại diện cho giá trị nhập
