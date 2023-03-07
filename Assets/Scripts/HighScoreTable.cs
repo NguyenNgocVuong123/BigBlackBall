@@ -9,6 +9,7 @@ public class HighScoreTable : MonoBehaviour
     public Transform entryContainer;
     public Transform entryTemplate;
     public ItemScore itemScore;
+    private string jsonString;
     private List<ItemScore> itemScoreslist = new List<ItemScore>();//khởi tạo list chứa cell
     private List<Transform> hSEntrieslistTrans;
 
@@ -22,10 +23,8 @@ public class HighScoreTable : MonoBehaviour
 
     private void Awake() {
         entryTemplate.gameObject.SetActive(true);//tạm thời ẩn bảng
-
         //  InitHighScore("vuong", 1000);
         //   InitHighScore("vuong2", 1000);
-        
     }
     
 
@@ -104,18 +103,40 @@ public class HighScoreTable : MonoBehaviour
 
 
 
-//dùng playerpefs để lưu highscore và jsonutility để chuyển đổi danh sách lưu
+// dùng playerpefs để lưu highscore và jsonutility để chuyển đổi danh sách lưu
  public void InitHighScore(string name, int score){ 
         //tạo ojb lưu lại highscore
         HSEntry hSEntry = new HSEntry();
         hSEntry.name = name;
         hSEntry.score = score;
-         Highscore highscore = new Highscore();
+        string jsonString =  PlayerPrefs.GetString("highScoreTable");
+        Highscore highscore = new Highscore();
+        
         //thêm dữ liệu mới vào highscore
         highscore.HScoreEntriesList.Add(hSEntry);
+        if (highscore.HScoreEntriesList.Count > 5) //giới hạn 5 người được lên bảng
+        {
+            for (int h = highscore.HScoreEntriesList.Count; h>5; h--)
+            {   //sắp xếp khi lưu
+                for( int i = 0; i< highscore.HScoreEntriesList.Count; i++)
+                { //kiểm tra trong danh sách
+                    for(int j = i+1; j <highscore.HScoreEntriesList.Count;j++){ //ở mỗi giá trị tiếp theo
+                        if(highscore.HScoreEntriesList[j].score >highscore.HScoreEntriesList[i].score){
+                            //nếu giá trị sau lớn hơn giá trị trước
+                            //thì đổi vị trị, dưới đây là hàm swap
+                            HSEntry temp = highscore.HScoreEntriesList[i];
+                            highscore.HScoreEntriesList[i] = highscore.HScoreEntriesList[j];
+                            highscore.HScoreEntriesList[j] = temp;
+                        }
+                    }
+                }
+                
+            }
+        
+        }
         string json = JsonUtility.ToJson(highscore); //chuyển về chuỗi(string) dữ liệu lưu trong file json //để dùng được thì phải mở truy cập của lớp HSEntry thì mới truy cập dc giá trị
         PlayerPrefs.SetString("highScoreTable", json); 
-
+        
  }
     public void AddHighScore(string name, int score){ 
         //tạo ojb lưu lại highscore

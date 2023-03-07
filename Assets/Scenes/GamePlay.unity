@@ -67933,7 +67933,7 @@ MonoBehaviour:
   PauseButton: {fileID: 440067027}
   scoreBoard: {fileID: 108873919}
   inputUI: {fileID: 800884761}
-  pointStart: 500000
+  pointStart: 550000
   pointUI: {fileID: 707734390}
   yourScore: {fileID: 1355702019}
   Anou: {fileID: 966596034}

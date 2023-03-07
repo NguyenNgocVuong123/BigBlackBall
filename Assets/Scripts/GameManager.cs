@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
             playerMov.enabled = false;
             Time.timeScale = 0f;
             Cursor.visible= true;
+            highScoreTable.list();
             Continuebtn.SetActive(false);
             pointStart = 0;
             getScore = pointStart;
@@ -126,7 +127,7 @@ public class GameManager : MonoBehaviour
         isWin = true;
         PauseButton.SetActive(false);
         gamePauseUI.SetActive(false);
-        highScoreTable.list();
+        highScoreTable.Clear();
         scoreBoard.SetActive(true);
         Debug.Log("YouWin");
         playerMov.enabled = false;
